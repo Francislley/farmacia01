@@ -1,0 +1,194 @@
+{% load staticfiles %}
+{% include "header.html" %}
+
+		{% include "menu.html" %}
+
+		<!-- Bootstrap datepicker -->
+		<script src="{% static "js/bootstrap-datepicker.min.js" %}"></script>
+		<link rel="stylesheet" href="{% static "css/datepicker.css" %}">
+		<script src="{% static "js/bootstrap-datepicker.pt-BR.min.js" %}"></script>
+
+		<!-- content -->
+		<section class="container">
+
+			<h3>Adicionar Lotes</h3>
+
+			<!-- add -->
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-xs-12">
+					<form action="" method="POST" role="form">
+						{% csrf_token %}
+						<br>
+						{% autoescape off %}
+						<div class="{{classerror}}">
+							<strong>{{error}}</strong>
+						</div>
+						{% endautoescape %}
+						<div class="form-group">
+							<strong>Fornecedor do lote</strong>
+							<select name="fornecedor" class="form-control" required>
+								<option value=""></option>
+							{% for fon in list_fon %}
+								<option value="{{fon.id}}">{{fon.nome}}</option>
+							{% endfor %}
+							</select>
+
+						</div>
+						<div class="form-group">
+							<strong>Número</strong>
+							<input type="number" maxlength="20" name="numero" value="{{numero}}" class="form-control" placeholder="Digite o lote" required>
+						</div>
+						<div class="form-group">
+							<strong>Fabricacao (Exemplo: yyyy-mm-dd 2016-12-05)</strong>
+							<input type="text" class="form-control datepicker" name="fabricacao" value="{{fabricacao}}" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" placeholder="Insira a data de fabricação do lote" readonly required>
+						</div>
+						<div class="form-group">
+							<strong>Vencimento (Exemplo: yyyy-mm-dd 2016-12-06)</strong>
+							<input type="text" class="form-control datepicker" value="{{vencimento}}" name="vencimento" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" placeholder="Insira a data de vencimento do lote" readonly required>
+						</div>
+
+
+
+						<button type="submit" class="btn btn-primary">Salvar Lote</button>
+					</form>
+				</div>
+			</div>
+			<!-- add -->
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-xs-12">
+					<h3>Lotes</h3>
+
+					<form action="" method="GET" class="form-inline" role="form">
+						{% csrf_token %}
+
+						<div class="form-group">
+							<strong class="sr-only">Busca</strong>
+							<input type="text" class="form-control" name="busca" placeholder="Digite sua busca" required>
+						</div>
+
+						<button type="submit" class="btn btn-primary">Buscar</button>
+					</form>
+
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Fornecedor</th>
+								<th>Número</th>
+								<th>Fabricação</th>
+								<th>Vencimento</th>
+								<th>Opções</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for lot in list_lot %}
+							<tr>
+								<td>{{lot.fornecedor}}</td>
+								<td>{{lot.numero}}</td>
+								<td>{{lot.fabricacao}}</td>
+								<td>{{lot.vencimento}}</td>
+								<td>
+									<a class="btn btn-danger" onclick="delLot('?deleta='+{{lot.id}},'{{lot.numero}}')">
+										Deletar
+									</a>
+									<a class="btn btn-info" data-toggle="modal" href='#alterar' onclick='pegaAltLot("{{lot.id}}","{{lot.fornecedor}}","{{lot.numero}}","{{lot.fabricacao|date:"Y-m-j"}}","{{lot.vencimento|date:"Y-m-j"}}")''>
+									Alterar
+									</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<!-- listagem -->
+
+					<!-- pagination -->
+					<div class="text-center">
+					    <ul class="pagination pagination-lg">
+					        {% if list_lot.has_previous %}
+					            <li>
+					            	<a href="?page={{ list_lot.previous_page_number }}">«</a>
+					            </li>
+					        {% endif %}
+
+					        <li>
+					            <a>
+					            	{{ list_lot.number }} de {{ list_lot.paginator.num_pages }}
+					            </a>
+					        </li>
+
+					        {% if list_lot.has_next %}
+					            <li>
+					            	<a href="?page={{ list_lot.next_page_number }}">»</a>
+					            </li>
+					        {% endif %}
+					    </ul>
+					</div>
+					<!-- pagination -->
+
+				</div>
+
+
+			</div>
+
+		</section>
+		<!-- content -->
+
+		<!-- Alterar -->
+		<div class="modal fade" id="alterar">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Alterar Lote</h4>
+					</div>
+					<form id="formAltLot">
+							{% csrf_token %}
+						<div class="modal-body">
+							<div class="form">
+								<div id="responseAlt"></div>
+							</div>
+							<div class="form-group">
+								<strong>Fornecedor do lote</strong>
+								<select name="fornecedor" id="fornAlt" class="form-control" required>
+									<option value=""></option>
+								{% for fon in list_fon %}
+									<option value="{{fon.id}}">{{fon.nome}}</option>
+								{% endfor %}
+								</select>
+
+							</div>
+							<div class="form-group">
+								<input type="hidden" name="idAlt" id="idAlt" class="form-control" value="">
+								<strong>Número</strong>
+								<input type="text" maxlength="20" name="numero" id="numeroAlt" value="" class="form-control" placeholder="Digite o lote" required>
+							</div>
+							<div class="form-group">
+								<strong>Fabricacao (Exemplo: yyyy-mm-dd 2016-12-05)</strong>
+								<input type="text" class="form-control datepicker" id="fabAlt" name="fabricacao" value="" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" placeholder="Insira a data de fabricação do lote" readonly required>
+							</div>
+							<div class="form-group">
+								<strong>Vencimento (Exemplo: yyyy-mm-dd 2016-12-06)</strong>
+								<input type="text" class="form-control datepicker" id="vencAlt" value="" name="vencimento" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" placeholder="Insira a data de vencimento do lote" readonly required>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+							<button type="submit" class="btn btn-primary">Salvar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Alterar -->
+
+
+		<script>
+			$('.datepicker').datepicker({
+				format: 'yyyy-mm-dd',
+				orientation: 'bottom',
+			    language: "pt-BR"
+			});
+
+		</script>
+
+{% include "footer.html" %}

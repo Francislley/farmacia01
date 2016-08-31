@@ -1,0 +1,52 @@
+{% load staticfiles %}
+{% include "header.html" %}
+
+
+		{% include "menu.html" %}
+
+		<!-- content -->
+		<section class="container">
+			<div class="row" align="center">
+				<div class="col-xs-12 col-md-12 col-lg-12">
+					<h3>Bem-vindo {{username}}</h3>
+					<div class="col-xs-12 col-md-6 col-lg-6" align="center">
+						<a href="medicamentos/" class="btn btn-primary btn-lg btn-block">
+							Medicamentos
+							<i class="glyphicon glyphicon-plus-sign"></i>
+						</a>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-6" align="center">
+						<a href="clientes/" class="btn btn-primary btn-lg btn-block">
+							Cliente
+							<i class="glyphicon glyphicon-user"></i>
+						</a>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-6" align="center">
+						<a href="fornecedores/" class="btn btn-primary btn-lg btn-block">
+							Fornecedor
+							<i class="glyphicon glyphicon-th-list"></i>
+						</a>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-6" align="center">
+						<a href="lotes/" class="btn btn-primary btn-lg btn-block">
+							Lotes
+							<i class="glyphicon glyphicon-lock"></i>
+						</a>
+					</div>
+					<div class="col-xs-12 col-md-12 col-lg-12" align="center">
+						<a href="entradaesaida/" class="btn btn-info btn-lg btn-block">
+							Entrada e saída
+							<i class="glyphicon glyphicon-transfer"></i>
+						</a>
+					</div>
+					<div class="col-xs-12 col-md-12 col-lg-12" align="center">
+						<a href="medicamentos/vencidos/" class="btn btn-warning btn-lg btn-block">
+							Lotes vencidos
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- content -->
+
+{% include "footer.html" %}

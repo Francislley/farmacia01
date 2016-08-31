@@ -1,0 +1,88 @@
+{% load staticfiles %}
+{% include "header.html" %}
+
+		{% include "menu.html" %}
+
+		<section class="container">
+
+      <h3>
+        <strong>Vencidos</strong>
+      </h3>
+      {% autoescape off %}
+      <div class="{{classerror}}">
+        <strong>{{error}}</strong>
+      </div>
+      {% endautoescape %}
+      <form action="" method="GET" class="form-inline" role="form">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <strong class="sr-only">Busca</strong>
+          <input type="text" class="form-control" name="busca" placeholder="Digite sua busca" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Buscar</button>
+      </form>
+
+      <!-- Listagem -->
+      <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Lote</th>
+              <th>Fornecedor</th>
+              <th>Fabricaçao</th>
+              <th>Vencimento</th>
+              <th>Opções</th>
+            </tr>
+          </thead>
+          <tbody>
+          <!-- Registro de medicamentos -->
+          {%  for lot in list_lotes %}
+            <tr>
+              <td>{{lot.numero}}</td>
+              <td>{{lot.fornecedor}}</td>
+              <td>{{lot.fabricacao}}</td>
+              <td>{{lot.vencimento}}</td>
+              <td>
+                <a class="btn btn-danger" href="?deletar={{lot.id}}" onclick="return confirm('Deletar lote vencido ?');" >
+                  Deletar
+                </a>
+
+              </td>
+          </tr>
+          {% endfor %}
+          <!-- Registro de medicamentos -->
+          </tbody>
+
+
+      </table>
+      <!-- Listagem -->
+
+      <!-- pagination -->
+      <div class="text-center">
+          <ul class="pagination pagination-lg">
+              {% if list_lotes.has_previous %}
+                  <li>
+                    <a href="?page={{ list_lotes.previous_page_number }}">«</a>
+                  </li>
+              {% endif %}
+
+              <li>
+                  <a>
+                    {{ list_lotes.number }} de {{ list_lotes.paginator.num_pages }}
+                  </a>
+              </li>
+
+              {% if list_lotes.has_next %}
+                  <li>
+                    <a href="?page={{ list_lotes.next_page_number }}">»</a>
+                  </li>
+              {% endif %}
+          </ul>
+      </div>
+      <!-- pagination -->
+
+		</section>
+
+
+{% include "footer.html" %}

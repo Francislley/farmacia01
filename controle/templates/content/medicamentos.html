@@ -1,0 +1,150 @@
+{% load staticfiles %}
+{% include "header.html" %}
+
+		{% include "menu.html" %}
+
+		<!-- content -->
+		<section class="container">		
+			
+			<h3>Adicionar Medicamentos</h3>
+
+			<!-- add -->
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-xs-12">
+					<form action="" method="POST" role="form">
+						{% csrf_token %}		
+						<br>
+						{% autoescape off %}
+						<div class="{{classerror}}">
+							<strong>{{error}}</strong>
+						</div>
+						{% endautoescape %}	
+						<div class="form-group">
+							<strong>Nome</strong>
+							<input type="text" value="{{nome}}" class="form-control" name="nome" placeholder="Nome do medicamento" required>
+						</div>
+						<div class="form-group">
+							<strong>Descrição</strong>
+							<textarea name="descricao" id="inputDescricao" class="form-control" maxlength="250" rows="3" required>{{descricao}}</textarea>
+						</div>
+						<button type="submit" class="btn btn-info">Salvar Medicamento</button>
+					</form>
+				</div>
+			</div>
+			<!-- add -->
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-xs-12">
+					<h3>Medicamentos</h3>
+
+					<form action="" method="GET" class="form-inline" role="form">
+						{% csrf_token %}	
+						
+						<div class="form-group">
+							<strong class="sr-only">Busca</strong>
+							<input type="text" class="form-control" name="busca" placeholder="Digite sua busca" required>
+						</div>
+					
+						<button type="submit" class="btn btn-primary">Buscar</button>
+					</form>
+
+					<!-- Listagem -->
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Data Insercao</th>
+								<th>Nome</th>
+								<th>Descricao</th>
+								<th>Opções</th>
+							</tr>
+						</thead>
+						<tbody>
+						<!-- Registro de medicamentos -->
+						{%  for med in list_med %}
+							<tr>
+								<td>{{med.data_insercao}}</td>
+								<td>{{med.nome}}</td>
+								<td>{{med.descricao}}</td>
+								<td>
+									<a class="btn btn-danger" onclick="delMed('?deleta='+{{med.id}},'{{med.nome}}')">
+										Deletar
+									</a>
+									<a class="btn btn-info" data-toggle="modal" href='#alterarMod' onclick="pegaAltMed('{{med.id}}','{{med.nome}}','{{med.descricao}}')">
+										Alterar
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+						<!-- Registro de medicamentos -->
+						</tbody>
+					</table>
+					<!-- Listagem -->
+					
+					<!-- pagination -->
+					<div class="text-center">
+					    <ul class="pagination pagination-lg">
+					        {% if list_med.has_previous %}
+					            <li>
+					            	<a href="?page={{ list_med.previous_page_number }}">«</a>
+					            </li>
+					        {% endif %}
+
+					        <li>
+					            <a>
+					            	{{ list_med.number }} de {{ list_med.paginator.num_pages }}
+					            </a>
+					        </li>
+
+					        {% if list_med.has_next %}
+					            <li>
+					            	<a href="?page={{ list_med.next_page_number }}">»</a>
+					            </li>
+					        {% endif %}
+					    </ul>
+					</div>
+					<!-- pagination -->
+
+				</div>
+			</div>
+			
+			<!-- Alterar -->
+			<div class="modal fade" id="alterarMod">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title">Alterar Medicamento</h4>
+						</div>
+						<form id="formAlt">
+							{% csrf_token %} 		
+							<div class="modal-body">
+								<div class="form-group">
+									<div id="responseAlt">			
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="hidden" id="idAlt" name="idAlt">
+									<strong>Nome</strong>
+									<input type="text" maxlength="50" id="nomeMedA" class="form-control" name="nome" placeholder="Nome do medicamento" required>
+								</div>
+								<div class="form-group">
+									<strong>Descrição</strong>
+									<textarea name="descricao" id="descMedA" class="form-control" maxlength="250" rows="3" required>princípio ativo | dosagem | etc
+									</textarea>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+								<button type="submit" class="btn btn-primary">Salvar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- Alterar -->
+
+		</section>
+		<!-- content -->
+
+		
+{% include "footer.html" %}

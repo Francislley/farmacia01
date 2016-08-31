@@ -1,0 +1,62 @@
+{% load staticfiles %}
+{% include "header.html" %}
+
+		<!-- content -->
+		<section class="container">
+			<div class="row">
+
+				<!-- space -->
+				<div class="col-lg-3 col-md-2"></div>
+				<!-- space-->
+
+				<!-- form -->
+				<div class="col-lg-6 col-md-8 col-xs-12" align="center">
+					<div class="panel panel-default">
+						<div class="panel-body">
+
+							<div>
+								<img class="img-responsive" src="{% static "img/Pharmalog.png" %}">
+							</div>
+							{% autoescape off %}
+							<div class="{{classerror}}">
+								<strong>{{error}}</strong>
+							</div>
+							{% endautoescape %}
+
+							<form action="/" method="POST" class="form-horizontal" role="form">
+								{% csrf_token %}
+								<div class="form-group">
+									<input type="text" name="username" class="form-control input-lg" placeholder="Digite seu login" required>
+									<div class="input-group-addon">
+										<i class="glyphicon glyphicon-play-circle"></i>
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="password" name="password" class="form-control input-lg" placeholder="Digite sua senha"  placeholder="">
+
+									<div class="input-group-addon">
+										<i class="glyphicon glyphicon-eye-close"></i>
+									</div>
+								</div>
+
+
+								<button type="submit" class="btn-lg btn-info">
+									Logar
+									<i class="glyphicon glyphicon-triangle-right"></i>
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- form -->
+
+				<!-- space -->
+				<div class="col-lg-3 col-md-2"></div>
+				<!-- space-->
+
+			</div>
+		</section>
+		<!-- content -->
+
+
+{% include "footer.html" %}
