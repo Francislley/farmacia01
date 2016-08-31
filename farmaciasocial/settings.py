@@ -126,5 +126,5 @@ STATIC_ROOT = 'controle/static' # Important for Heroku
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    path.join(BASE_DIR, 'controle/static'),  # Important for Heroku
+    path.join(BASE_DIR, 'static'),  # Important for Heroku
 )
