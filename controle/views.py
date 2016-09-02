@@ -258,10 +258,16 @@ def fornecedor(request):
 	elif request.GET.get('deleta'):
 
 		try:
-			fon = Fornecedor.objects.filter(pk=request.GET['deleta']).delete()
-			error = "<strong>Deletado com sucesso !!</strong>"
-			classerror = "alert alert-success"
 
+			lotLs = Lote.objects.filter(fornecedor=request.GET['deleta'])
+
+			if len(lotLs) == 0:
+				fon = Fornecedor.objects.filter(pk=request.GET['deleta']).delete()
+				error = "<strong>Deletado com sucesso !!</strong>"
+				classerror = "alert alert-success"
+			else:
+				error = "<strong>Fabricante com lotes cadastrados !!</strong>"
+				classerror = "alert alert-warning"
 		except:
 			pass
 
