@@ -586,8 +586,8 @@ def medVenc(request):
 
 	if request.GET.get('deletar'):
 
-		entVer = Medicamento_Entrada.objects.filter(lote=request.GET['deleta'])
-		if len(entVer)== 0:
+		entVer = Medicamento_Entrada.objects.filter(lote=request.GET['deletar'])
+		if len(entVer) == 0:
 			Lote.objects.filter(pk=request.GET['deletar']).delete()
 			error = "Deletado com sucesso"
 			classerror = "alert alert-success"
