@@ -87,7 +87,6 @@
 							<form action="?pageent" method="POST" role="form" href="#entrada">
 							{% csrf_token %}
 
-								<input type="hidden" name="usuario" value="{{user.id}}" >
 								<div class="form-group">
 									<strong>Lote</strong>
 									<select name="lote" class="form-control" required>
@@ -189,7 +188,7 @@
 								{% csrf_token %}
 								<br>
 								<div class="form-group">
-									<input type="hidden" name="usuario" value="{{user.id}}" class="form-control">
+
 									<strong>Cliente</strong>
 									<select name="cliente" class="form-control" required>
 										<option value=""></option>
