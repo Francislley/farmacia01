@@ -1,5 +1,5 @@
 from django.contrib import admin
-# from .models import Usuario
+from .models import Usuario
 from .models import Lote
 from .models import Fornecedor
 from .models import Cliente
@@ -8,8 +8,8 @@ from .models import Medicamento_Entrada
 from .models import Medicamento_Saida
 # Register your models here.
 
-# class UsuarioAdmin(admin.ModelAdmin):
-# 	list_display = ['nome','login','senha']
+class UsuarioAdmin(admin.ModelAdmin):
+	list_display = ['nome','login','senha']
 
 # class FornecedorAdmin(admin.ModelAdmin):
 # 	list_display = ['nome','contato']
@@ -30,7 +30,7 @@ from .models import Medicamento_Saida
 # 	list_display = ['medicamento','quantidade','data_saida','usuario']
 
 
-# admin.site.register(Usuario,UsuarioAdmin)
+admin.site.register(Usuario,UsuarioAdmin)
 # admin.site.register(Lote,LoteAdmin)
 # admin.site.register(Fornecedor,FornecedorAdmin)
 # admin.site.register(Cliente,ClienteAdmin)
