@@ -418,7 +418,7 @@ def entradaSaida(request):
 		list_med_i = request.POST.getlist('medicamento')
 		list_quant_i = request.POST.getlist('quantidade')
 		for i in range(len(list_med_i)):
-			form = Medicamento_EntradaForm({'quantidade':list_quant_i[i],'medicamento':list_med_i[i],'lote':request.POST['lote'],'usuario':request.user.id})
+			form = Medicamento_EntradaForm({'quantidade':list_quant_i[i],'medicamento':list_med_i[i],'lote':request.POST['lote'],'usuario':int(request.user.id)})
 			if form.is_valid():
 				form.save()
 				classerror = "alert alert-success"
@@ -456,7 +456,7 @@ def entradaSaida(request):
 				error += "</div><br>"
 
 			else:
-				form = Medicamento_SaidaForm({'medicamento':ls_out_med[i],'usuario':request.user.id,'cliente':request.POST['cliente'],'quantidade':ls_out_qua[i]})
+				form = Medicamento_SaidaForm({'medicamento':ls_out_med[i],'usuario':int(request.user.id),'cliente':request.POST['cliente'],'quantidade':ls_out_qua[i]})
 				if form.is_valid():
 					form.save()
 					classerror = "alert alert-success"
