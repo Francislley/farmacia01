@@ -1,14 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Modelos
-class Usuario(models.Model):
-	nome = models.CharField(max_length=50)
-	login = models.CharField(max_length=50)
-	# privilegio = models.CharField(max_length=100)
-	senha = models.CharField(max_length=30)
-
-	def __str__(self):
-		return self.nome
+# class Usuario(models.Model):
+# 	nome = models.CharField(max_length=50)
+# 	login = models.CharField(max_length=50)
+# 	# privilegio = models.CharField(max_length=100)
+# 	senha = models.CharField(max_length=30)
+#
+# 	def __str__(self):
+# 		return self.nome
 
 class Fornecedor(models.Model):
 	nome = models.CharField(max_length=40)
@@ -45,7 +46,7 @@ class Medicamento(models.Model):
 		return self.nome
 
 class Medicamento_Entrada(models.Model):
-	usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+	usuario = models.ForeignKey(User)
 	medicamento = models.ForeignKey(Medicamento,on_delete=models.CASCADE)
 	lote = models.ForeignKey(Lote,on_delete=models.CASCADE)
 	data_entrada = models.DateTimeField(auto_now=False,auto_now_add=True)
@@ -53,7 +54,7 @@ class Medicamento_Entrada(models.Model):
 
 
 class Medicamento_Saida(models.Model):
-	usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+	usuario = models.ForeignKey(User)
 	medicamento = models.ForeignKey(Medicamento,on_delete=models.CASCADE)
 	data_saida = models.DateTimeField(auto_now=False,auto_now_add=True)
 	quantidade = models.IntegerField()
