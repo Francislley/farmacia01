@@ -216,18 +216,16 @@ def loteAlt(request):
 	response = ""
 	if request.method == "POST":
 
-		form = LoteForm(request.POST)
-		if form.is_valid():
+		numRep = Lote.objects.filter(numero=request.POST['numero']).exclude(pk=request.POST['idAlt'])
+
+		if len(numRep) == 0 and len(request.POST['fornecedor']) != 0 and len(request.POST['fabricacao']) != 0 and len(request.POST['vencimento']) != 0:
 
 			lotA = Lote.objects.filter(pk=request.POST['idAlt']).update(numero=request.POST['numero'],fornecedor=request.POST['fornecedor'],fabricacao=request.POST['fabricacao'],vencimento=request.POST['vencimento'])
 			response = "Alterado"
 
 		else:
 			response = "<div class='alert alert-warning'>"
-			response += "Campos inválidos <ul>"
-			for i in form.errors:
-				response += "<li>"+i.title()+"</li>"
-			response += "</ul></div>"
+			response += "Campos inválidos"
 
 	return HttpResponse(response)
 
