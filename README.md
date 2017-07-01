@@ -4,4 +4,4 @@ Projeto desenvolvido em 2016 com objetivo em gerenciar estoque de uma farmacia s
 notas:
 
 Usado em uma farmacia totalmente comunitária;
-Experiência para iniciar em DJANGO (Um dos primeiros projetos em DJANGO  ( ;) -> :(  ) )
+Experiência para iniciar em DJANGO 
